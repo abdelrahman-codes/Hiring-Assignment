@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import styles from "./ApartmentList.module.css"; 
+import styles from "./ApartmentList.module.css";
+import useDebounce from "../hooks/useDebounce";
 
 interface Apartment {
   _id: string;
@@ -15,33 +16,42 @@ interface Apartment {
 
 const ApartmentList = () => {
   const [apartments, setApartments] = useState<Apartment[]>([]);
+  const [searchTermInput, setSearchTermInput] = useState("");
   const [filters, setFilters] = useState({
-    searchTerm: "",
     currentPage: 1,
     perPage: 6,
   });
   const [totalPages, setTotalPages] = useState(1);
-  const [loading, setLoading] = useState(true); // For skeleton loading state
+  const [loading, setLoading] = useState(true);
 
-  const fetchApartments = async () => {
-    const { searchTerm,  currentPage, perPage } = filters;
+  // Apply the debounce hook to the search input state
+  const debouncedSearchTerm = useDebounce(searchTermInput, 500); // 500ms debounce delay
 
-    // Send pagination and filters data to the backend
+  const fetchApartments = async (searchTerm: string) => {
+    setLoading(true);
+    const { currentPage, perPage } = filters;
+
+    // Use the passed-in searchTerm (which will be the debounced value)
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL}/api/apartments?page=${currentPage}&size=${perPage}&searchTerm=${searchTerm}`
     );
     const { data } = await res.json();
     setApartments(data.apartments);
     setTotalPages(data.totalPages);
-    setLoading(false); // Stop loading once the data is fetched
+    setLoading(false);
   };
 
   useEffect(() => {
-    fetchApartments();
-  }, [filters]); // Re-fetch when filters change
+    // When the debouncedSearchTerm changes, we reset to page 1 to start a new search.
+    setFilters((prevFilters) => ({ ...prevFilters, currentPage: 1 }));
+    fetchApartments(debouncedSearchTerm);
+
+    // The dependency array is updated to use debouncedSearchTerm
+  }, [filters.perPage, filters.currentPage, debouncedSearchTerm]);
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFilters({ ...filters, searchTerm: e.target.value, currentPage: 1 });
+    // Update the local input state immediately
+    setSearchTermInput(e.target.value);
   };
 
   const handlePageChange = (newPage: number) => {
@@ -52,18 +62,18 @@ const ApartmentList = () => {
     <div className={styles.container}>
       <h1 className={styles.title}>Apartments</h1>
 
-      {/* Search  */}
+      {/* Search  */}
       <div className={styles.filterContainer}>
         <input
           type="text"
           placeholder="Search apartments"
-          value={filters.searchTerm}
+          // Use the local input state for the input value
+          value={searchTermInput}
           onChange={handleSearchChange}
           className={styles.input}
         />
       </div>
 
-      {/* Cards Layout */}
       {loading ? (
         // Display skeleton loading cards
         <div className={styles.cardContainer}>
@@ -89,7 +99,9 @@ const ApartmentList = () => {
               <p className={styles.cardInfo}>
                 Project: {apartment.project_name}
               </p>
-              <p className={styles.cardPrice}>{apartment.price} EGP</p>
+              <p className={styles.cardPrice}>
+                {apartment.price.toLocaleString()} EGP
+              </p>
             </Link>
           ))}
         </div>
