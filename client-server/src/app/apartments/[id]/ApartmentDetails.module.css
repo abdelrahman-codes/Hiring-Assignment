@@ -1,7 +1,7 @@
 /* Color Palette & Variables */
 :root {
   --color-primary: #4a90e2; /* Blue */
-  --color-secondary: #2c3e50; /* Dark Blue/Grey */
+  --color-secondary: #4a90e2; /* Dark Blue/Grey */
   --color-text-body: #34495e; /* Medium Dark Blue/Grey */
   --color-text-light: #7f8c8d; /* Grey */
   --color-background: #f7f8fa; /* Light Grey Background */
@@ -109,12 +109,11 @@
 
 /* Title */
 .title {
-  font-size: clamp(2rem, 6vw, 3rem);
-  font-weight: 800;
-  margin-bottom: 2.5rem;
-  color: var(--color-secondary);
+  font-size: 2.5rem;
+  font-weight: 600;
   text-align: center;
-  letter-spacing: 0.5px;
+  margin-bottom: 2rem;
+  color: var(--color-secondary);
 }
 
 /* Loading and Error States */
