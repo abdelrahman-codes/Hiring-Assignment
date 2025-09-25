@@ -1,0 +1,163 @@
+/* Container */
+.container {
+  margin-top: 70px;
+  padding: 0 2rem;
+  max-width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 12px;
+  background-color: #f7f8fa;
+  min-height: 90svh;
+}
+
+/* Title */
+.title {
+  font-size: 2.5rem;
+  font-weight: 600;
+  text-align: center;
+  color: #4a90e2;
+  margin-bottom: 2rem;
+  margin-top: 6rem;
+}
+
+/* Search and Filters */
+.filterContainer {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 30px;
+  gap: 20px;
+}
+
+.input,
+.select {
+  padding: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  flex: 1;
+  font-size: 1rem;
+  background-color: #fff;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.input:focus,
+.select:focus {
+  border-color: #4a90e2; /* Blue border on focus */
+}
+
+/* Cards Layout */
+.cardContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.card {
+  background-color: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+.cardHeader {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.cardInfo {
+  font-size: 1rem;
+  color: #555;
+  margin: 5px 0;
+}
+
+.cardPrice {
+  font-size: 1.125rem;
+  color: #4a90e2;
+  font-weight: 600;
+  margin-top: 10px;
+}
+
+/* Skeleton for loading */
+.skeleton {
+  background-color: #e0e0e0;
+  height: 20px;
+  border-radius: 6px;
+  margin: 5px;
+}
+
+.skeleton-text {
+  width: 100%;
+  height: 100%;
+  border-radius: 6px;
+}
+
+/* Pagination */
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 40px;
+  font-size: 1rem;
+}
+
+.paginationButton {
+  padding: 10px 20px;
+  background-color: #4a90e2;
+  color: white;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.3s;
+}
+
+.paginationButton:hover {
+  background-color: #357abd;
+}
+
+.paginationButton:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.pageNumber {
+  align-self: center;
+  font-size: 1.125rem;
+  color: #4a90e2;
+  font-weight: 600;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  .container {
+    max-width: 100%;
+  }
+  .cardContainer {
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  }
+
+  .filterContainer {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .pagination {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .paginationButton {
+    width: 100%;
+  }
+
+  .pageNumber {
+    margin-top: 10px;
+  }
+}

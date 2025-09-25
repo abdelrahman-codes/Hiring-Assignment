@@ -1,0 +1,53 @@
+version: "3.8"
+
+services:
+  server:
+    build: ./server # Reference the server folder
+    container_name: express_server
+    environment:
+      - MONGODB_URI=mongodb+srv://admin:admin@avocado.sijhdlz.mongodb.net/nawy?retryWrites=true&w=majority
+      - CLOUD_NAME=dnpjy04ip
+      - CLOUD_KEY=545917964936814
+      - CLOUD_SECRET=sKBjugR6BFu41dyQmAtUcGj5zTQ
+    ports:
+      - "8080:8080" # Expose port 8080 for Express server
+    depends_on:
+      - mongodb
+    volumes:
+      - ./server:/usr/src/app
+      - /usr/src/app/node_modules # This line excludes the local node_modules
+    networks:
+      - backend
+
+  client:
+    build: ./client-server # Reference the client folder
+    container_name: nextjs_server
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:8080 # API URL for Next.js (pointing to Express)
+    ports:
+      - "3000:3000" # Expose port 3000 for Next.js server
+    depends_on:
+      - server
+    volumes:
+      - ./client-server:/app
+      - /app/node_modules # This line excludes the local node_modules
+    networks:
+      - backend
+    command: "npm run dev"
+
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    ports:
+      - "27017:27017" # Expose MongoDB port
+    volumes:
+      - mongo-data:/data/db
+    networks:
+      - backend
+
+volumes:
+  mongo-data:
+
+networks:
+  backend:
+    driver: bridge

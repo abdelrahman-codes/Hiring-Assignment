@@ -1,0 +1,59 @@
+/* General styles for the navbar */
+.navbar {
+  background: #f7f8fa;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 10;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px 20px 0px 20px;
+}
+.navContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 20px;
+  background: #ffffff;
+  backdrop-filter: blur(10px); /* Glassy effect */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 100px;
+  width: 90%;
+}
+
+.logo {
+  object-fit: contain;
+  height: 40px;
+  width: 40px;
+  cursor: pointer;
+}
+
+.navLinks {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.navLink {
+  font-size: 1rem;
+  font-weight: 500;
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
+  color: #000000c1;
+}
+
+.navLink:hover {
+  color: #000000;
+}
+
+.navbar a {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+@media (max-width: 768px) {
+  .navContainer {
+    width: 100%;
+  }
+}
